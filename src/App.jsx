@@ -1,4 +1,8 @@
+import {Tab, Tabs, TabList, TabPanel} from "react-tabs";
+import 'react-tabs/style/react-tabs.css';
 import Tab1 from './components/tab1';
+import Tab2 from "./components/tab2";
+import Tab3 from "./components/tab3";
 import './App.css'
 
 function App() {
@@ -10,12 +14,22 @@ function App() {
         <img/>
         <h1>Form Heading</h1>
       </div>
-      <div className='tab-container'>
-        <button type='button'>Button1</button>
-        <button type='button'>Button2</button>
-        <button type='button'>Button3</button>
-      </div>
-      <Tab1/>
+      <Tabs>
+        <TabList>
+          <Tab>Tab 1</Tab>
+          <Tab>Tab 2</Tab>
+          <Tab>Tab 3</Tab>
+        </TabList>
+        <TabPanel>
+          <Tab1/>
+        </TabPanel>
+        <TabPanel>
+          <Tab2/>
+        </TabPanel>
+        <TabPanel>
+          <Tab3/>
+        </TabPanel>
+      </Tabs>
     </div>
   )
 }
