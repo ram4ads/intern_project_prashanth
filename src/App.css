@@ -1,0 +1,19 @@
+.tab-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  margin: 8px;
+}
+.app-card {
+  background-color: #B9EDDD;
+  border-radius: 5px;
+  padding: 20px;
+}
+body {
+  color: #070A52;
+  display: flex;
+  justify-content: center;
+}
