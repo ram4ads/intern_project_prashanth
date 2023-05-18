@@ -1,7 +1,7 @@
 import { useRef } from "react";
 
-const Tab1 = () => {
-
+const Tab1 = (props) => {
+  const {setFormData, handleNextTab} = props.handlers;
   const formRef = useRef(null);
 
   const onSubmitForm = (event) => {
@@ -19,19 +19,8 @@ const Tab1 = () => {
     if (formValues.password !== formValues.confirmPassword) {
       alert("Passwords did not match")
     } else {
-      (async () => {
-        const url = "http://localhost:3000/";
-        const options = {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(formValues),
-        };
-        const response = await fetch(url, options);
-        const message = await response.text();
-        console.log(message);
-      })();
+      setFormData(formValues);
+      handleNextTab();
     }
   };
 
@@ -107,7 +96,6 @@ const Tab1 = () => {
           />
         </div>
         <button type="submit">Save</button>
-        <button type="button">Next</button>
       </form>
     </div>
   );

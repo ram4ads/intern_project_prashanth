@@ -17,6 +17,7 @@ const client = new MongoClient(uri, {
 });
 
 app.post("/", async (req, res) => {
+  console.log(55);
   try {
     await client.connect();
     const result = await client
