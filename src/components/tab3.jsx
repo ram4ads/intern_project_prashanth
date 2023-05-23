@@ -1,44 +1,69 @@
-import { useRef, useState } from "react";
-import SigntureCanvas from "react-signature-canvas";
-import '../styles/tab3.css';
+import { useRef } from "react";
 
 const Tab3 = (props) => {
-    const {formData} = props;
-  const signatureRef = useRef();
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const clearCanvas = () => {
-    signatureRef.current.clear();
-    setIsSubmitted(false);
-  }
-  const saveCanvas = () => {
-    setIsSubmitted(true);
-    if (!signatureRef.current.isEmpty()) {
-        (async () => {
-            const url = 'http://localhost:3000/';
-            const options = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({...formData, image: signatureRef.current.toDataURL()})
-            }
-            const response = await fetch(url, options);
-        })();
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+  const { formData, setFormData } = props.details;
+  const { photoDataUrl } = formData;
+
+  const openCamera = async () => {
+    try {
+      videoRef.current.srcObject = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: false,
+      });
+    } catch (error) {
+      console.error("Error accessing camera: ", error);
     }
-  }
+  };
+
+  const closeCamera = () => {
+    const stream = videoRef.current.srcObject;
+    const tracks = stream.getTracks();
+    tracks.forEach((track) => track.stop());
+    videoRef.current.srcObject = null;
+  };
+
+  const capturePhoto = () => {
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    const context = canvas.getContext("2d");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const photoDataUrl = canvas.toDataURL("image/jpeg");
+    setFormData({ ...formData, photoDataUrl });
+  };
+
+  const anotherPhoto = () => {
+    setFormData({ ...formData, photoDataUrl: null });
+  };
+
   return (
     <div>
-      <SigntureCanvas
-        penColor="green"
-        backgroundColor="rgb(246, 241, 241)"
-        canvasProps={{ width: 500, height: 200, className: "sigCanvas" }}
-        ref={signatureRef}
-        onBegin = {() => setIsSubmitted(false)}
-      />
-      <br/>
-      {isSubmitted && signatureRef.current.isEmpty() && <p className="err-message">*Canvas is empty. Please give signature.</p>}
-      <button type="button" onClick={clearCanvas}>Clear</button>
-      <button type="button" onClick={saveCanvas}>Submit</button>
+      {!photoDataUrl && (
+        <div>
+          <button type="button" onClick={openCamera}>
+            Open Camera
+          </button>
+          <button type="button" onClick={closeCamera}>
+            Close Camera
+          </button>
+          <button type="button" onClick={capturePhoto}>
+            Capture Photo
+          </button>
+          <video ref={videoRef} autoPlay></video>
+        </div>
+      )}
+      {photoDataUrl && (
+        <div>
+          <button type="button" onClick={anotherPhoto}>
+            Take another photo
+          </button>
+          <img src={photoDataUrl} alt="recent photo" />
+        </div>
+      )}
+      <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
     </div>
   );
 };

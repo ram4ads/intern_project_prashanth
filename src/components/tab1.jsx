@@ -1,7 +1,7 @@
 import { useRef } from "react";
 
 const Tab1 = (props) => {
-  const {setFormData, handleNextTab} = props.handlers;
+  const {setFormData, handleNextTab} = props.details;
   const formRef = useRef(null);
 
   const onSubmitForm = (event) => {
