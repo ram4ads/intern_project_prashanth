@@ -1,7 +1,8 @@
-import { useRef } from "react";
+import { FormContext } from "../App";
+import { useRef, useContext } from "react";
 
-const Tab1 = (props) => {
-  const {setFormData, handleNextTab} = props.details;
+const Tab1 = () => {
+  const {formData, setFormData, handleNextTab} = useContext(FormContext);
   const formRef = useRef(null);
 
   const onSubmitForm = (event) => {
@@ -19,7 +20,7 @@ const Tab1 = (props) => {
     if (formValues.password !== formValues.confirmPassword) {
       alert("Passwords did not match")
     } else {
-      setFormData(formValues);
+      setFormData({...formData, formValues});
       handleNextTab();
     }
   };

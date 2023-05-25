@@ -1,5 +1,8 @@
-const Tab2 = (props) => {
-    const {handleNextTab, formData, setFormData} = props.details;
+import { useContext } from "react";
+import { FormContext } from "../App";
+
+const Tab2 = () => {
+    const {handleNextTab, formData, setFormData} = useContext(FormContext);
     const {uploadImage} = formData;
 
     const handleUpload = (event) => {
@@ -8,7 +11,7 @@ const Tab2 = (props) => {
     }
     return <div>
         <input type="file" onChange={handleUpload}/>
-        {uploadImage && <img src={uploadImage}/>}
+        {uploadImage && <img src={uploadImage} height={100}/>}
         <button type="button" onClick={handleNextTab}>Next</button>
     </div>
 }

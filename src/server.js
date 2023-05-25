@@ -1,4 +1,4 @@
-import { MongoClient, ServerApiVersion } from "mongodb";
+import { MongoClient, ObjectId, ServerApiVersion } from "mongodb";
 import express from "express";
 import cors from "cors";
 
@@ -17,7 +17,6 @@ const client = new MongoClient(uri, {
 });
 
 app.post("/", async (req, res) => {
-  console.log(55);
   try {
     await client.connect();
     const result = await client
@@ -25,12 +24,26 @@ app.post("/", async (req, res) => {
       .collection("formData")
       .insertOne(req.body);
     console.log("Data inserted successfully: ", result.insertedId);
+    res.send({id: result.insertedId});
   } catch (error) {
     console.log("Error inserting data in Mongodb: ", error);
   } finally {
-    //client.close();
+    await client.close();
   }
 });
+
+app.post("/appDetails", async (req, res) => {
+  try {
+    const {id} = req.body;
+    await client.connect();
+    const document = await client.db("Mirach").collection("formData").findOne({_id: new ObjectId(id)});
+    res.send({document});
+  } catch (error) {
+    console.log("Error getting data from mongodb: ", error);
+  } finally {
+    await client.close();
+  }
+})
 
 app.listen(3000, () => {
   console.log("server started at port 3000");

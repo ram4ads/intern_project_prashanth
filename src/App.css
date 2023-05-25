@@ -11,6 +11,8 @@ button {
   background-color: #B9EDDD;
   border-radius: 5px;
   padding: 20px;
+  height: 90vh;
+  width: 50vw;
 }
 body {
   color: #070A52;
