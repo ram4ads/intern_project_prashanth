@@ -28,6 +28,7 @@ function App() {
   return (
     <div>
       <h1>search bar</h1>
+      <p>Please enter atleast 3 letters</p>
       <input
         type="search"
         name="searchBar"
