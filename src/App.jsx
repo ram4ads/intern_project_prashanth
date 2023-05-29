@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import React from "react";
 import "./App.css";
 
@@ -19,16 +19,7 @@ const generate = (str, prefix) => {
 generate("abcde", "");
 
 function App() {
-  const [isSearchable, setIsSearchable] = useState(false);
   const [searchInput, setSearchInput] = useState("");
-
-  useEffect(() => {
-    if (searchInput.length < 3) {
-      if (isSearchable) setIsSearchable(false);
-    } else {
-      if (!isSearchable) setIsSearchable(true);
-    }
-  }, [searchInput]);
 
   const handleSearch = (event) => {
     setSearchInput(event.target.value);
@@ -44,7 +35,7 @@ function App() {
         value={searchInput}
       />
       <ul>
-        {isSearchable &&
+        {searchInput.length >= 3 &&
           permutations
             .filter((each) => each.includes(searchInput))
             .map((item) => <li key={item}>{item}</li>)}
