@@ -1,0 +1,15 @@
+{
+  "name": "selinium-sample",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dasari Prashanth",
+  "license": "ISC",
+  "dependencies": {
+    "chromedriver": "^114.0.1",
+    "selenium-webdriver": "^4.10.0"
+  }
+}
